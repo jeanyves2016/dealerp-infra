@@ -1,6 +1,10 @@
+version: "3.9"
 volumes:
+ # Données persistantes des sites Frappe
   sites:
+ # Logs applicatifs
   logs:
+ # Base MariaDB
   db-data:
   redis-cache-data:
   redis-queue-data:

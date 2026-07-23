@@ -1,7 +1,10 @@
 ARG ERPNEXT_VERSION=v15
 FROM frappe/erpnext:${ERPNEXT_VERSION}
 
-ARG DEALERP_REPO_URL=https://github.com/Dealtonsite/dealerp.git
+# Dépôt Git officiel de l'application DealERP
+# ARG DEALERP_REPO_URL=https://github.com/Dealtonsite/dealerp.git
+# Cette valeur peut être surchargée via les Build Args de Coolify.
+ARG DEALERP_REPO_URL=https://github.com/jeanyves2016/dealerp.git
 ARG DEALERP_BRANCH=main
 
 WORKDIR /home/frappe/frappe-bench
@@ -24,7 +27,13 @@ RUN --mount=type=secret,id=github_token \
 RUN /home/frappe/frappe-bench/env/bin/pip install -e apps/dealerp
 
 # Déclare l'app dans le bench (nécessaire pour que bench la reconnaisse au build/migrate)
-RUN echo "dealerp" >> sites/apps.txt
+# Évite d'ajouter plusieurs fois "dealerp" dans sites/apps.txt RUN echo "dealerp" >> sites/apps.txt
+RUN grep -qxF "dealerp" sites/apps.txt || echo "dealerp" >> sites/apps.txt
+
+LABEL org.opencontainers.image.title="DealERP"
+LABEL org.opencontainers.image.vendor="Dealtonsite"
+LABEL org.opencontainers.image.source="https://github.com/jeanyves2016/dealerp"
+LABEL org.opencontainers.image.authors="Jean Yves Ahiba"
 
 # Compile les assets front-end (JS/CSS, Workspaces, icônes) — étape oubliée
 # dans un simple git clone + pip install, indispensable pour que l'app soit
