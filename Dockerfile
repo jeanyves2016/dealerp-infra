@@ -33,5 +33,3 @@ LABEL org.opencontainers.image.title="DealERP"
 LABEL org.opencontainers.image.vendor="Dealtonsite"
 LABEL org.opencontainers.image.source="https://github.com/jeanyves2016/dealerp"
 LABEL org.opencontainers.image.authors="Jean Yves Ahiba"
-
-RUN bench build --app dealerp
